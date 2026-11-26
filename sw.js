@@ -1,15 +1,18 @@
 /* Skybound service worker
    Bump VERSION whenever you ship a new index.html / assets so installed apps update. */
-const VERSION = 'v1';
+const VERSION = 'v2';
 const SHELL_CACHE = 'skybound-shell-' + VERSION;
 const RUNTIME_CACHE = 'skybound-runtime-' + VERSION;
 const FONT_CACHE = 'skybound-fonts-v1';
 const BASE = self.registration.scope;
 const url = (p) => new URL(p, BASE).href;
 
-const CORE = ['./', 'index.html', 'manifest.webmanifest', 'offline.html',
-  'icons/icon-192.png', 'icons/icon-512.png', 'icons/icon-maskable-512.png',
-  'icons/apple-touch-icon.png', 'icons/favicon-32.png', 'icons/favicon.ico'];
+// These files are required for the app shell to work. Keep optional artwork and
+// install icons out of this list so one missing upload cannot abort installation.
+const REQUIRED_CORE = ['./', 'index.html', 'manifest.webmanifest'];
+const OPTIONAL_CORE = ['offline.html',
+  'assets/icons/icon-192.png', 'assets/icons/icon-512.png', 'assets/icons/icon-maskable-512.png',
+  'assets/icons/apple-touch-icon.png', 'assets/icons/favicon-32.png', 'assets/icons/favicon.ico'];
 
 // Artwork the app references. Cached best-effort: a missing file never breaks install.
 const ART = ['hero_skybound', 'ic_skybound_mascot',
@@ -23,8 +26,10 @@ self.addEventListener('install', (event) => {
   self.skipWaiting(); // new versions take over straight away (pages always load network-first anyway)
   event.waitUntil((async () => {
     const cache = await caches.open(SHELL_CACHE);
-    await Promise.all(CORE.map(p => cache.add(new Request(url(p), { cache: 'reload' }))));
-    await Promise.all(ART.map(p => cache.add(new Request(url(p), { cache: 'reload' })).catch(() => {})));
+    await Promise.all(REQUIRED_CORE.map(p => cache.add(new Request(url(p), { cache: 'reload' }))));
+    await Promise.all(OPTIONAL_CORE.concat(ART).map(p =>
+      cache.add(new Request(url(p), { cache: 'reload' })).catch(() => {})
+    ));
   })());
 });
 

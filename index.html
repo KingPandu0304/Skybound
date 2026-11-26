@@ -5,6 +5,13 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Skybound</title>
 <meta name="theme-color" content="#ffffff">
+<meta name="description" content="Skybound turns coach feedback into goals. Set goals. Achieve more.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Skybound">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;600;700;800;900&display=swap" rel="stylesheet">
@@ -478,6 +485,13 @@ function enhanceAssets(){const root=document.getElementById('app');if(!root)retu
  loadExample=function(){const oldIds=new Set(S.activities.filter(a=>a.isExample).map(a=>a.id));if(oldIds.size){S.activities=S.activities.filter(a=>!a.isExample);['goals','feedback','sessions','habits','records'].forEach(k=>S[k]=S[k].filter(x=>!oldIds.has(x.activityId)))}const a={id:uid('act'),name:'Football',icon:'ball',color:'#4A90E2',isExample:true};S.activities.push(a);S.currentActivityId=a.id;const now=Date.now(),dribble={id:uid('goal'),activityId:a.id,title:'Improve dribbling',priority:'H',nextAction:'Complete 15 minutes of close-control dribbling',successDefinition:'I can change direction while keeping the ball close.',isInCurrentAim:true,completedAt:null,retiredAt:null,feedbackId:null,steps:[{title:'Choose a change-of-direction drill',done:true},{title:'Practise both feet',done:false}],timeline:[{timestamp:now,description:'Example goal created'}],createdAt:now,isExample:true,practiceDays:2,practiceOnDays:[1,2],practiceTimes:{1:'17:00',2:'18:00'},practiceTime:'17:00',practiceDates:[]},sprints={id:uid('goal'),activityId:a.id,title:'Build sprint speed',priority:'H',nextAction:'Run six short sprints with full recovery',successDefinition:'My first steps feel sharper and I keep good form.',isInCurrentAim:true,completedAt:null,retiredAt:null,feedbackId:null,steps:[],timeline:[{timestamp:now,description:'Example goal created'}],createdAt:now,isExample:true,practiceDays:1,practiceOnDays:[5],practiceTimes:{5:'17:30'},practiceTime:'17:30',practiceDates:[]},pressure={id:uid('goal'),activityId:a.id,title:'Stay calm under pressure',priority:'M',nextAction:'Use one slow breath before receiving',successDefinition:'I reset instead of rushing.',isInCurrentAim:true,completedAt:null,retiredAt:null,feedbackId:null,steps:[],timeline:[{timestamp:now,description:'Example session-only goal created'}],createdAt:now,isExample:true,practiceDays:0,practiceOnDays:[],practiceTimes:{},practiceTime:'',practiceDates:[]};S.goals.push(dribble,sprints,pressure);S.sessions.push({id:uid('ses'),activityId:a.id,title:'Dribbling technique',type:'Practice',dateKey:nextSessionDate(2),time:'18:00',weekly:true,goalIds:[dribble.id],completedDates:[],createdAt:now,isExample:true},{id:uid('ses'),activityId:a.id,title:'Running training',type:'Training',dateKey:nextSessionDate(5),time:'17:30',weekly:true,goalIds:[sprints.id],completedDates:[],createdAt:now,isExample:true});S.habits.push({id:uid('hab'),activityId:a.id,title:'Ball touches',targetDays:2,practiceOnDays:[1,3],practiceTimes:{1:'17:00',3:'17:00'},linkedGoalId:dribble.id,loggedDates:[],createdAt:now,isExample:true},{id:uid('hab'),activityId:a.id,title:'Mobility reset',targetDays:2,practiceOnDays:[4,5],practiceTimes:{4:'19:00',5:'19:00'},linkedGoalId:sprints.id,loggedDates:[],createdAt:now,isExample:true});S.feedback.push({id:uid('fb'),activityId:a.id,coachName:'Coach Maya',note:'Keep your first touch soft, take one breath before receiving, and attack space with sharper first steps.',createdAt:now,isExample:true});S.settings.weeklyTarget=4;save();render();toast('Updated example activity loaded')};
  render();
 })();
+</script>
+<script>
+if ('serviceWorker' in navigator && window.isSecureContext) {
+  window.addEventListener('load', function () {
+    navigator.serviceWorker.register('sw.js', { scope: './' }).catch(function () {});
+  });
+}
 </script>
 </body>
 </html>

@@ -7,7 +7,7 @@ This folder is the current-source single-page web version of the Android app. It
 Serve this folder with any static web server and open the site in a browser. For a quick local preview from the project root:
 
 ```powershell
-python -m http.server 8080 --directory web
+python -m http.server 8080
 ```
 
 Then open `http://localhost:8080`.
@@ -16,7 +16,7 @@ The app is a single `index.html` with vanilla HTML, CSS, and JavaScript. User da
 
 The current web bundle includes a six-step first-run onboarding/TeenTech tour with screen previews, activities, Current Aim, goals and goal steps, feedback and reviews, weekly rhythm, habits, sessions, calendar, history, altitude ranks, records, milestones, templates, progress reports, appearance, notification settings, widget preview, and the modular mascot with the current pose and customization assets. The bottom bar keeps Home, Goals, Calendar, History and a centered quick-add button; More is available from the top settings button.
 
-There is intentionally no `manifest.json` and no service worker yet, so this is not being packaged as a PWA.
+The web app includes a PWA manifest and service worker. For installation testing, serve this folder from `localhost` or HTTPS. Keep the install artwork in `assets/icons/` using the filenames referenced by `manifest.webmanifest`.
 
 ## Android-only features
 
